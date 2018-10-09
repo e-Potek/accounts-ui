@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'e-potek:accounts-ui',
+  name: 'epotek:accounts-ui',
   version: '1.4.0',
   summary: 'Accounts UI for React in Meteor 1.3+',
   git: 'https://github.com/e-Potek/accounts-ui.git',
