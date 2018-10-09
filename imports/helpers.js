@@ -1,5 +1,7 @@
-let browserHistory
-try { browserHistory = require('react-router').browserHistory } catch(e) {}
+let browserHistory;
+try {
+  browserHistory = require('react-router').browserHistory;
+} catch (e) {}
 export const loginButtonsSession = Accounts._loginButtonsSession;
 export const STATES = {
   SIGN_IN: Symbol('SIGN_IN'),
@@ -12,16 +14,18 @@ export const STATES = {
 
 export function getLoginServices() {
   // First look for OAuth services.
-  const services = Package['accounts-oauth'] ? Accounts.oauth.serviceNames() : [];
+  const services = Package['accounts-oauth']
+    ? Accounts.oauth.serviceNames()
+    : [];
 
   // Be equally kind to all login services. This also preserves
   // backwards-compatibility.
   services.sort();
 
-  return services.map(function(name){
-    return {name: name};
+  return services.map(function(name) {
+    return { name: name };
   });
-};
+}
 // Export getLoginServices using old style globals for accounts-base which
 // requires it.
 this.getLoginServices = getLoginServices;
@@ -29,66 +33,75 @@ this.getLoginServices = getLoginServices;
 export function hasPasswordService() {
   // First look for OAuth services.
   return !!Package['accounts-password'];
-};
+}
 
 export function loginResultCallback(service, err) {
   if (!err) {
-
   } else if (err instanceof Accounts.LoginCancelledError) {
     // do nothing
   } else if (err instanceof ServiceConfiguration.ConfigError) {
-
   } else {
     //loginButtonsSession.errorMessage(err.reason || "Unknown error");
   }
 
   if (Meteor.isClient) {
-    if (typeof redirect === 'string'){
+    if (typeof redirect === 'string') {
       window.location.href = '/';
     }
 
-    if (typeof service === 'function'){
+    if (typeof service === 'function') {
       service();
     }
   }
-};
+}
 
 export function passwordSignupFields() {
-  return Accounts.ui._options.passwordSignupFields || "EMAIL_ONLY_NO_PASSWORD";
-};
+  return Accounts.ui._options.passwordSignupFields || 'EMAIL_ONLY_NO_PASSWORD';
+}
 
 export function validateEmail(email, showMessage, clearMessage) {
-  if (passwordSignupFields() === "USERNAME_AND_OPTIONAL_EMAIL" && email === '') {
+  if (
+    passwordSignupFields() === 'USERNAME_AND_OPTIONAL_EMAIL' &&
+    email === ''
+  ) {
     return true;
   }
   if (Accounts.ui._options.emailPattern.test(email)) {
     return true;
   } else if (!email || email.length === 0) {
-    showMessage("error.emailRequired", 'warning', false, 'email');
+    showMessage('error.emailRequired', 'warning', false, 'email');
     return false;
   } else {
-    showMessage("error.accounts.Invalid email", 'warning', false, 'email');
+    showMessage('error.accounts.Invalid email', 'warning', false, 'email');
     return false;
   }
 }
 
-export function validatePassword(password = '', showMessage, clearMessage){
+export function validatePassword(password = '', showMessage, clearMessage) {
   if (password.length >= Accounts.ui._options.minimumPasswordLength) {
     return true;
   } else {
     // const errMsg = T9n.get("error.minChar").replace(/7/, Accounts.ui._options.minimumPasswordLength);
-    const errMsg = "error.minChar"
+    const errMsg = 'error.minChar';
     showMessage(errMsg, 'warning', false, 'password');
     return false;
   }
-};
+}
 
-export function validateUsername(username, showMessage, clearMessage, formState) {
-  if ( username ) {
+export function validateUsername(
+  username,
+  showMessage,
+  clearMessage,
+  formState
+) {
+  if (username) {
     return true;
   } else {
-    const fieldName = (passwordSignupFields() === 'USERNAME_ONLY' || formState === STATES.SIGN_UP) ? 'username' : 'usernameOrEmail';
-    showMessage("error.usernameRequired", 'warning', false, fieldName);
+    const fieldName =
+      passwordSignupFields() === 'USERNAME_ONLY' || formState === STATES.SIGN_UP
+        ? 'username'
+        : 'usernameOrEmail';
+    showMessage('error.usernameRequired', 'warning', false, fieldName);
     return false;
   }
 }
@@ -105,7 +118,7 @@ export function redirect(redirect) {
         } else if (browserHistory) {
           browserHistory.push(redirect);
         } else {
-          window.history.pushState( {} , 'redirect', redirect );
+          window.history.pushState({}, 'redirect', redirect);
         }
       }, 100);
     }
@@ -113,7 +126,11 @@ export function redirect(redirect) {
 }
 
 export function capitalize(string) {
-  return string.replace(/\-/, ' ').split(' ').map(word => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(' ');
+  return string
+    .replace(/\-/, ' ')
+    .split(' ')
+    .map(word => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(' ');
 }

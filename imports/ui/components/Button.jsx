@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { Accounts } from 'meteor/accounts-base';
 
 let Link;
-try { Link = require('react-router').Link; } catch(e) {}
+try {
+  Link = require('react-router').Link;
+} catch (e) {}
 
 export class Button extends React.Component {
-  render () {
+  render() {
     const {
       label,
       href = null,
@@ -18,15 +20,29 @@ export class Button extends React.Component {
     if (type == 'link') {
       // Support React Router.
       if (Link && href) {
-        return <Link to={ href } className={ className }>{ label }</Link>;
+        return (
+          <Link to={href} className={className}>
+            {label}
+          </Link>
+        );
       } else {
-        return <a href={ href } className={ className } onClick={ onClick }>{ label }</a>;
+        return (
+          <a href={href} className={className} onClick={onClick}>
+            {label}
+          </a>
+        );
       }
     }
-    return <button className={ className }
-                   type={ type } 
-                   disabled={ disabled }
-                   onClick={ onClick }>{ label }</button>;
+    return (
+      <button
+        className={className}
+        type={type}
+        disabled={disabled}
+        onClick={onClick}
+      >
+        {label}
+      </button>
+    );
   }
 }
 

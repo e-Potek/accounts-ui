@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Accounts } from 'meteor/accounts-base';
 import { T9n } from 'meteor/softwarerero:accounts-t9n';
-import { KEY_PREFIX } from '../../login_session.js';
+import { KEY_PREFIX } from '../../login_session.js';
 import './Form.jsx';
 
 import {
@@ -40,19 +40,29 @@ class LoginForm extends Component {
     } = props;
 
     if (formState === STATES.SIGN_IN && Package['accounts-password']) {
-      console.warn('Do not force the state to SIGN_IN on Accounts.ui.LoginForm, it will make it impossible to reset password in your app, this state is also the default state if logged out, so no need to force it.');
+      console.warn(
+        'Do not force the state to SIGN_IN on Accounts.ui.LoginForm, it will make it impossible to reset password in your app, this state is also the default state if logged out, so no need to force it.'
+      );
     }
 
     // Set inital state.
     this.state = {
       messages: [],
       waiting: true,
-      formState: formState ? formState : Accounts.user() ? STATES.PROFILE : STATES.SIGN_IN,
+      formState: formState
+        ? formState
+        : Accounts.user()
+          ? STATES.PROFILE
+          : STATES.SIGN_IN,
       onSubmitHook: props.onSubmitHook || Accounts.ui._options.onSubmitHook,
-      onSignedInHook: props.onSignedInHook || Accounts.ui._options.onSignedInHook,
-      onSignedOutHook: props.onSignedOutHook || Accounts.ui._options.onSignedOutHook,
-      onPreSignUpHook: props.onPreSignUpHook || Accounts.ui._options.onPreSignUpHook,
-      onPostSignUpHook: props.onPostSignUpHook || Accounts.ui._options.onPostSignUpHook,
+      onSignedInHook:
+        props.onSignedInHook || Accounts.ui._options.onSignedInHook,
+      onSignedOutHook:
+        props.onSignedOutHook || Accounts.ui._options.onSignedOutHook,
+      onPreSignUpHook:
+        props.onPreSignUpHook || Accounts.ui._options.onPreSignUpHook,
+      onPostSignUpHook:
+        props.onPostSignUpHook || Accounts.ui._options.onPostSignUpHook
     };
     this.translate = this.translate.bind(this);
   }
@@ -84,7 +94,7 @@ class LoginForm extends Component {
 
     // Add default field values once the form did mount on the client
     this.setState(prevState => ({
-      ...this.getDefaultFieldValues(),
+      ...this.getDefaultFieldValues()
     }));
   }
 
@@ -92,7 +102,7 @@ class LoginForm extends Component {
     if (nextProps.formState && nextProps.formState !== this.state.formState) {
       this.setState({
         formState: nextProps.formState,
-        ...this.getDefaultFieldValues(),
+        ...this.getDefaultFieldValues()
       });
     }
   }
@@ -114,22 +124,25 @@ class LoginForm extends Component {
 
   validateField(field, value) {
     const { formState } = this.state;
-    switch(field) {
+    switch (field) {
       case 'email':
-        return validateEmail(value,
+        return validateEmail(
+          value,
           this.showMessage.bind(this),
-          this.clearMessage.bind(this),
+          this.clearMessage.bind(this)
         );
       case 'password':
-        return validatePassword(value,
+        return validatePassword(
+          value,
           this.showMessage.bind(this),
-          this.clearMessage.bind(this),
+          this.clearMessage.bind(this)
         );
       case 'username':
-        return validateUsername(value,
+        return validateUsername(
+          value,
           this.showMessage.bind(this),
           this.clearMessage.bind(this),
-          formState,
+          formState
         );
     }
   }
@@ -140,9 +153,9 @@ class LoginForm extends Component {
       hint: this.translate('enterUsernameOrEmail'),
       label: this.translate('usernameOrEmail'),
       required: true,
-      defaultValue: this.state.username || "",
+      defaultValue: this.state.username || '',
       onChange: this.handleChange.bind(this, 'usernameOrEmail'),
-      message: this.getMessageForField('usernameOrEmail'),
+      message: this.getMessageForField('usernameOrEmail')
     };
   }
 
@@ -152,9 +165,9 @@ class LoginForm extends Component {
       hint: this.translate('enterUsername'),
       label: this.translate('username'),
       required: true,
-      defaultValue: this.state.username || "",
+      defaultValue: this.state.username || '',
       onChange: this.handleChange.bind(this, 'username'),
-      message: this.getMessageForField('username'),
+      message: this.getMessageForField('username')
     };
   }
 
@@ -165,9 +178,9 @@ class LoginForm extends Component {
       label: this.translate('email'),
       type: 'email',
       required: true,
-      defaultValue: this.state.email || "",
+      defaultValue: this.state.email || '',
       onChange: this.handleChange.bind(this, 'email'),
-      message: this.getMessageForField('email'),
+      message: this.getMessageForField('email')
     };
   }
 
@@ -178,9 +191,9 @@ class LoginForm extends Component {
       label: this.translate('password'),
       type: 'password',
       required: true,
-      defaultValue: this.state.password || "",
+      defaultValue: this.state.password || '',
       onChange: this.handleChange.bind(this, 'password'),
-      message: this.getMessageForField('password'),
+      message: this.getMessageForField('password')
     };
   }
 
@@ -203,20 +216,21 @@ class LoginForm extends Component {
       type: 'password',
       required: true,
       onChange: this.handleChange.bind(this, 'newPassword'),
-      message: this.getMessageForField('newPassword'),
+      message: this.getMessageForField('newPassword')
     };
   }
 
   handleChange(field, evt) {
     let value = evt.target.value;
     switch (field) {
-      case 'password': break;
+      case 'password':
+        break;
       default:
         value = value.trim();
         break;
     }
     this.setState({ [field]: value });
-    this.setDefaultFieldValues({ [field]: value });
+    this.setDefaultFieldValues({ [field]: value });
   }
 
   fields() {
@@ -231,60 +245,71 @@ class LoginForm extends Component {
     }
 
     if (hasPasswordService() && formState == STATES.SIGN_IN) {
-      if ([
-        "USERNAME_AND_EMAIL",
-        "USERNAME_AND_OPTIONAL_EMAIL",
-        "USERNAME_AND_EMAIL_NO_PASSWORD"
-      ].includes(passwordSignupFields())) {
+      if (
+        [
+          'USERNAME_AND_EMAIL',
+          'USERNAME_AND_OPTIONAL_EMAIL',
+          'USERNAME_AND_EMAIL_NO_PASSWORD'
+        ].includes(passwordSignupFields())
+      ) {
         loginFields.push(this.getUsernameOrEmailField());
       }
 
-      if (passwordSignupFields() === "USERNAME_ONLY") {
+      if (passwordSignupFields() === 'USERNAME_ONLY') {
         loginFields.push(this.getUsernameField());
       }
 
-      if ([
-        "EMAIL_ONLY",
-        "EMAIL_ONLY_NO_PASSWORD"
-      ].includes(passwordSignupFields())) {
+      if (
+        ['EMAIL_ONLY', 'EMAIL_ONLY_NO_PASSWORD'].includes(
+          passwordSignupFields()
+        )
+      ) {
         loginFields.push(this.getEmailField());
       }
 
-      if (![
-        "EMAIL_ONLY_NO_PASSWORD",
-        "USERNAME_AND_EMAIL_NO_PASSWORD"
-      ].includes(passwordSignupFields())) {
+      if (
+        !['EMAIL_ONLY_NO_PASSWORD', 'USERNAME_AND_EMAIL_NO_PASSWORD'].includes(
+          passwordSignupFields()
+        )
+      ) {
         loginFields.push(this.getPasswordField());
       }
     }
 
     if (hasPasswordService() && formState == STATES.SIGN_UP) {
-      if ([
-        "USERNAME_AND_EMAIL",
-        "USERNAME_AND_OPTIONAL_EMAIL",
-        "USERNAME_ONLY",
-        "USERNAME_AND_EMAIL_NO_PASSWORD"
-      ].includes(passwordSignupFields())) {
+      if (
+        [
+          'USERNAME_AND_EMAIL',
+          'USERNAME_AND_OPTIONAL_EMAIL',
+          'USERNAME_ONLY',
+          'USERNAME_AND_EMAIL_NO_PASSWORD'
+        ].includes(passwordSignupFields())
+      ) {
         loginFields.push(this.getUsernameField());
       }
 
-      if ([
-        "USERNAME_AND_EMAIL",
-        "EMAIL_ONLY",
-        "EMAIL_ONLY_NO_PASSWORD",
-        "USERNAME_AND_EMAIL_NO_PASSWORD"
-      ].includes(passwordSignupFields())) {
+      if (
+        [
+          'USERNAME_AND_EMAIL',
+          'EMAIL_ONLY',
+          'EMAIL_ONLY_NO_PASSWORD',
+          'USERNAME_AND_EMAIL_NO_PASSWORD'
+        ].includes(passwordSignupFields())
+      ) {
         loginFields.push(this.getEmailField());
       }
 
-      if (["USERNAME_AND_OPTIONAL_EMAIL"].includes(passwordSignupFields())) {
-        loginFields.push(Object.assign(this.getEmailField(), {required: false}));
+      if (['USERNAME_AND_OPTIONAL_EMAIL'].includes(passwordSignupFields())) {
+        loginFields.push(
+          Object.assign(this.getEmailField(), { required: false })
+        );
       }
 
-      if (![
-        "EMAIL_ONLY_NO_PASSWORD",
-        "USERNAME_AND_EMAIL_NO_PASSWORD"
-      ].includes(passwordSignupFields())) {
+      if (
+        !['EMAIL_ONLY_NO_PASSWORD', 'USERNAME_AND_EMAIL_NO_PASSWORD'].includes(
+          passwordSignupFields()
+        )
+      ) {
         loginFields.push(this.getPasswordField());
       }
     }
@@ -294,7 +319,10 @@ class LoginForm extends Component {
     }
 
     if (this.showPasswordChangeForm()) {
-      if (Meteor.isClient && !Accounts._loginButtonsSession.get('resetPasswordToken')) {
+      if (
+        Meteor.isClient &&
+        !Accounts._loginButtonsSession.get('resetPasswordToken')
+      ) {
         loginFields.push(this.getPasswordField());
       }
       loginFields.push(this.getNewPasswordField());
@@ -312,7 +340,7 @@ class LoginForm extends Component {
       signUpPath = Accounts.ui._options.signUpPath,
       resetPasswordPath = Accounts.ui._options.resetPasswordPath,
       changePasswordPath = Accounts.ui._options.changePasswordPath,
-      profilePath = Accounts.ui._options.profilePath,
+      profilePath = Accounts.ui._options.profilePath
     } = this.props;
     const { user } = this.props;
     const { formState, waiting } = this.state;
@@ -357,12 +385,14 @@ class LoginForm extends Component {
       });
     }
 
-    if (user && ![
-        "EMAIL_ONLY_NO_PASSWORD",
-        "USERNAME_AND_EMAIL_NO_PASSWORD"
-      ].includes(passwordSignupFields())
-      && formState == STATES.PROFILE
-      && (user.services && 'password' in user.services)) {
+    if (
+      user &&
+      !['EMAIL_ONLY_NO_PASSWORD', 'USERNAME_AND_EMAIL_NO_PASSWORD'].includes(
+        passwordSignupFields()
+      ) &&
+      formState == STATES.PROFILE &&
+      (user.services && 'password' in user.services)
+    ) {
       loginButtons.push({
         id: 'switchToChangePassword',
         label: this.translate('changePassword'),
@@ -407,7 +437,9 @@ class LoginForm extends Component {
     if (this.showPasswordChangeForm() || this.showEnrollAccountForm()) {
       loginButtons.push({
         id: 'changePassword',
-        label: (this.showPasswordChangeForm() ? this.translate('changePassword') : this.translate('setPassword')),
+        label: this.showPasswordChangeForm()
+          ? this.translate('changePassword')
+          : this.translate('setPassword'),
         type: 'submit',
         disabled: waiting,
         onClick: this.passwordChange.bind(this)
@@ -426,7 +458,7 @@ class LoginForm extends Component {
           id: 'cancelResetPassword',
           label: this.translate('cancel'),
           type: 'link',
-          onClick: this.cancelResetPassword.bind(this),
+          onClick: this.cancelResetPassword.bind(this)
         });
       }
     }
@@ -435,37 +467,52 @@ class LoginForm extends Component {
     // buttons should also come before links.
     loginButtons.sort((a, b) => {
       return (
-        b.type == 'submit' &&
-        a.type != undefined) - (
-          a.type == 'submit' &&
-          b.type != undefined);
+        (b.type == 'submit' && a.type != undefined) -
+        (a.type == 'submit' && b.type != undefined)
+      );
     });
 
     return indexBy(loginButtons, 'id');
   }
 
-  showSignInLink(){
-    return this.state.formState == STATES.SIGN_IN && Package['accounts-password'];
+  showSignInLink() {
+    return (
+      this.state.formState == STATES.SIGN_IN && Package['accounts-password']
+    );
   }
 
   showPasswordChangeForm() {
-    return(Package['accounts-password']
-      && this.state.formState == STATES.PASSWORD_CHANGE);
+    return (
+      Package['accounts-password'] &&
+      this.state.formState == STATES.PASSWORD_CHANGE
+    );
   }
 
   showEnrollAccountForm() {
-    return(Package['accounts-password']
-      && this.state.formState == STATES.ENROLL_ACCOUNT);
+    return (
+      Package['accounts-password'] &&
+      this.state.formState == STATES.ENROLL_ACCOUNT
+    );
   }
 
   showCreateAccountLink() {
-    return this.state.formState == STATES.SIGN_IN && !Accounts._options.forbidClientAccountCreation && Package['accounts-password'];
+    return (
+      this.state.formState == STATES.SIGN_IN &&
+      !Accounts._options.forbidClientAccountCreation &&
+      Package['accounts-password']
+    );
   }
 
   showForgotPasswordLink() {
-    return !this.props.user
-      && this.state.formState == STATES.SIGN_IN
-      && ["USERNAME_AND_EMAIL", "USERNAME_AND_OPTIONAL_EMAIL", "EMAIL_ONLY"].includes(passwordSignupFields());
+    return (
+      !this.props.user &&
+      this.state.formState == STATES.SIGN_IN &&
+      [
+        'USERNAME_AND_EMAIL',
+        'USERNAME_AND_OPTIONAL_EMAIL',
+        'EMAIL_ONLY'
+      ].includes(passwordSignupFields())
+    );
   }
 
   /**
@@ -473,13 +520,18 @@ class LoginForm extends Component {
    */
   setDefaultFieldValues(defaults) {
     if (typeof defaults !== 'object') {
-      throw new Error('Argument to setDefaultFieldValues is not of type object');
+      throw new Error(
+        'Argument to setDefaultFieldValues is not of type object'
+      );
     } else if (typeof localStorage !== 'undefined' && localStorage) {
-      localStorage.setItem('accounts_ui', JSON.stringify({
-        passwordSignupFields: passwordSignupFields(),
-        ...this.getDefaultFieldValues(),
-        ...defaults,
-      }));
+      localStorage.setItem(
+        'accounts_ui',
+        JSON.stringify({
+          passwordSignupFields: passwordSignupFields(),
+          ...this.getDefaultFieldValues(),
+          ...defaults
+        })
+      );
     }
   }
 
@@ -488,9 +540,13 @@ class LoginForm extends Component {
    */
   getDefaultFieldValues() {
     if (typeof localStorage !== 'undefined' && localStorage) {
-      const defaultFieldValues = JSON.parse(localStorage.getItem('accounts_ui') || null);
-      if (defaultFieldValues
-        && defaultFieldValues.passwordSignupFields === passwordSignupFields()) {
+      const defaultFieldValues = JSON.parse(
+        localStorage.getItem('accounts_ui') || null
+      );
+      if (
+        defaultFieldValues &&
+        defaultFieldValues.passwordSignupFields === passwordSignupFields()
+      ) {
         return defaultFieldValues;
       }
     }
@@ -509,7 +565,7 @@ class LoginForm extends Component {
     event.preventDefault();
     this.setState({
       formState: STATES.SIGN_UP,
-      ...this.getDefaultFieldValues(),
+      ...this.getDefaultFieldValues()
     });
     this.clearMessages();
   }
@@ -518,7 +574,7 @@ class LoginForm extends Component {
     event.preventDefault();
     this.setState({
       formState: STATES.SIGN_IN,
-      ...this.getDefaultFieldValues(),
+      ...this.getDefaultFieldValues()
     });
     this.clearMessages();
   }
@@ -527,7 +583,7 @@ class LoginForm extends Component {
     event.preventDefault();
     this.setState({
       formState: STATES.PASSWORD_RESET,
-      ...this.getDefaultFieldValues(),
+      ...this.getDefaultFieldValues()
     });
     this.clearMessages();
   }
@@ -536,7 +592,7 @@ class LoginForm extends Component {
     event.preventDefault();
     this.setState({
       formState: STATES.PASSWORD_CHANGE,
-      ...this.getDefaultFieldValues(),
+      ...this.getDefaultFieldValues()
     });
     this.clearMessages();
   }
@@ -544,7 +600,7 @@ class LoginForm extends Component {
   switchToSignOut(event) {
     event.preventDefault();
     this.setState({
-      formState: STATES.PROFILE,
+      formState: STATES.PROFILE
     });
     this.clearMessages();
   }
@@ -554,7 +610,7 @@ class LoginForm extends Component {
     Accounts._loginButtonsSession.set('resetPasswordToken', null);
     this.setState({
       formState: STATES.SIGN_IN,
-      messages: [],
+      messages: []
     });
   }
 
@@ -562,7 +618,7 @@ class LoginForm extends Component {
     Meteor.logout(() => {
       this.setState({
         formState: STATES.SIGN_IN,
-        password: null,
+        password: null
       });
       this.state.onSignedOutHook();
       this.clearMessages();
@@ -578,7 +634,7 @@ class LoginForm extends Component {
       password,
       formState,
       onSubmitHook
-    } = this.state;
+    } = this.state;
     let error = false;
     let loginSelector;
     this.clearMessages();
@@ -586,12 +642,16 @@ class LoginForm extends Component {
     if (usernameOrEmail !== null) {
       if (!this.validateField('username', usernameOrEmail)) {
         if (this.state.formState == STATES.SIGN_UP) {
-          this.state.onSubmitHook("error.accounts.usernameRequired", this.state.formState);
+          this.state.onSubmitHook(
+            'error.accounts.usernameRequired',
+            this.state.formState
+          );
         }
         error = true;
-      }
-      else {
-        if (["USERNAME_AND_EMAIL_NO_PASSWORD"].includes(passwordSignupFields())) {
+      } else {
+        if (
+          ['USERNAME_AND_EMAIL_NO_PASSWORD'].includes(passwordSignupFields())
+        ) {
           this.loginWithoutPassword();
           return;
         } else {
@@ -601,20 +661,20 @@ class LoginForm extends Component {
     } else if (username !== null) {
       if (!this.validateField('username', username)) {
         if (this.state.formState == STATES.SIGN_UP) {
-          this.state.onSubmitHook("error.accounts.usernameRequired", this.state.formState);
+          this.state.onSubmitHook(
+            'error.accounts.usernameRequired',
+            this.state.formState
+          );
         }
         error = true;
-      }
-      else {
+      } else {
         loginSelector = { username: username };
       }
-    }
-    else if (usernameOrEmail == null) {
+    } else if (usernameOrEmail == null) {
       if (!this.validateField('email', email)) {
         error = true;
-      }
-      else {
-        if (["EMAIL_ONLY_NO_PASSWORD"].includes(passwordSignupFields())) {
+      } else {
+        if (['EMAIL_ONLY_NO_PASSWORD'].includes(passwordSignupFields())) {
           this.loginWithoutPassword();
           error = true;
         } else {
@@ -622,22 +682,26 @@ class LoginForm extends Component {
         }
       }
     }
-    if (!["EMAIL_ONLY_NO_PASSWORD"].includes(passwordSignupFields())
-      && !this.validateField('password', password)) {
+    if (
+      !['EMAIL_ONLY_NO_PASSWORD'].includes(passwordSignupFields()) &&
+      !this.validateField('password', password)
+    ) {
       error = true;
     }
 
     if (!error) {
       Meteor.loginWithPassword(loginSelector, password, (error, result) => {
-        onSubmitHook(error,formState);
+        onSubmitHook(error, formState);
         if (error) {
-          this.showMessage(`error.accounts.${error.reason}` || "unknown_error", 'error');
-        }
-        else {
+          this.showMessage(
+            `error.accounts.${error.reason}` || 'unknown_error',
+            'error'
+          );
+        } else {
           loginResultCallback(() => this.state.onSignedInHook());
           this.setState({
             formState: STATES.PROFILE,
-            password: null,
+            password: null
           });
           this.clearDefaultFieldValues();
         }
@@ -648,9 +712,9 @@ class LoginForm extends Component {
   oauthButtons() {
     const { formState, waiting } = this.state;
     let oauthButtons = [];
-    if (formState == STATES.SIGN_IN || formState == STATES.SIGN_UP ) {
-      if(Accounts.oauth) {
-        Accounts.oauth.serviceNames().map((service) => {
+    if (formState == STATES.SIGN_IN || formState == STATES.SIGN_UP) {
+      if (Accounts.oauth) {
+        Accounts.oauth.serviceNames().map(service => {
           oauthButtons.push({
             id: service,
             label: capitalize(service),
@@ -673,26 +737,29 @@ class LoginForm extends Component {
       return serviceName.charAt(0).toUpperCase() + serviceName.slice(1);
     }
 
-    if(serviceName === 'meteor-developer'){
+    if (serviceName === 'meteor-developer') {
       serviceName = 'meteorDeveloperAccount';
     }
 
-    const loginWithService = Meteor["loginWith" + capitalService()];
+    const loginWithService = Meteor['loginWith' + capitalService()];
 
     let options = {}; // use default scope unless specified
     if (Accounts.ui._options.requestPermissions[serviceName])
-      options.requestPermissions = Accounts.ui._options.requestPermissions[serviceName];
+      options.requestPermissions =
+        Accounts.ui._options.requestPermissions[serviceName];
     if (Accounts.ui._options.requestOfflineToken[serviceName])
-      options.requestOfflineToken = Accounts.ui._options.requestOfflineToken[serviceName];
+      options.requestOfflineToken =
+        Accounts.ui._options.requestOfflineToken[serviceName];
     if (Accounts.ui._options.forceApprovalPrompt[serviceName])
-      options.forceApprovalPrompt = Accounts.ui._options.forceApprovalPrompt[serviceName];
+      options.forceApprovalPrompt =
+        Accounts.ui._options.forceApprovalPrompt[serviceName];
 
     this.clearMessages();
-    const self = this
-    loginWithService(options, (error) => {
-      onSubmitHook(error,formState);
+    const self = this;
+    loginWithService(options, error => {
+      onSubmitHook(error, formState);
       if (error) {
-        this.showMessage(`error.accounts.${error.reason}` || "unknown_error");
+        this.showMessage(`error.accounts.${error.reason}` || 'unknown_error');
       } else {
         this.setState({ formState: STATES.PROFILE });
         this.clearDefaultFieldValues();
@@ -701,7 +768,6 @@ class LoginForm extends Component {
         });
       }
     });
-
   }
 
   signUp(options = {}) {
@@ -712,66 +778,78 @@ class LoginForm extends Component {
       password,
       formState,
       onSubmitHook
-    } = this.state;
+    } = this.state;
     let error = false;
     this.clearMessages();
 
     if (username !== null) {
-      if ( !this.validateField('username', username) ) {
+      if (!this.validateField('username', username)) {
         if (this.state.formState == STATES.SIGN_UP) {
-          this.state.onSubmitHook("error.accounts.usernameRequired", this.state.formState);
+          this.state.onSubmitHook(
+            'error.accounts.usernameRequired',
+            this.state.formState
+          );
         }
         error = true;
       } else {
         options.username = username;
       }
     } else {
-      if ([
-        "USERNAME_AND_EMAIL",
-        "USERNAME_AND_EMAIL_NO_PASSWORD"
-      ].includes(passwordSignupFields()) && !this.validateField('username', username) ) {
+      if (
+        ['USERNAME_AND_EMAIL', 'USERNAME_AND_EMAIL_NO_PASSWORD'].includes(
+          passwordSignupFields()
+        ) &&
+        !this.validateField('username', username)
+      ) {
         if (this.state.formState == STATES.SIGN_UP) {
-          this.state.onSubmitHook("error.accounts.usernameRequired", this.state.formState);
+          this.state.onSubmitHook(
+            'error.accounts.usernameRequired',
+            this.state.formState
+          );
         }
         error = true;
       }
     }
 
-    if (!this.validateField('email', email)){
+    if (!this.validateField('email', email)) {
       error = true;
     } else {
       options.email = email;
     }
 
-    if ([
-      "EMAIL_ONLY_NO_PASSWORD",
-      "USERNAME_AND_EMAIL_NO_PASSWORD"
-    ].includes(passwordSignupFields())) {
+    if (
+      ['EMAIL_ONLY_NO_PASSWORD', 'USERNAME_AND_EMAIL_NO_PASSWORD'].includes(
+        passwordSignupFields()
+      )
+    ) {
       // Generate a random password.
       options.password = Meteor.uuid();
     } else if (!this.validateField('password', password)) {
-      onSubmitHook("Invalid password", formState);
+      onSubmitHook('Invalid password', formState);
       error = true;
     } else {
       options.password = password;
     }
 
     const SignUp = function(_options) {
-      Accounts.createUser(_options, (error) => {
+      Accounts.createUser(_options, error => {
         if (error) {
-          this.showMessage(`error.accounts.${error.reason}` || "unknown_error", 'error');
+          this.showMessage(
+            `error.accounts.${error.reason}` || 'unknown_error',
+            'error'
+          );
           if (this.translate(`error.accounts.${error.reason}`)) {
             onSubmitHook(`error.accounts.${error.reason}`, formState);
+          } else {
+            onSubmitHook('unknown_error', formState);
           }
-          else {
-            onSubmitHook("unknown_error", formState);
-          }
-        }
-        else {
+        } else {
           onSubmitHook(null, formState);
           this.setState({ formState: STATES.PROFILE, password: null });
           let user = Accounts.user();
-          loginResultCallback(this.state.onPostSignUpHook.bind(this, _options, user));
+          loginResultCallback(
+            this.state.onPostSignUpHook.bind(this, _options, user)
+          );
           this.clearDefaultFieldValues();
         }
 
@@ -785,21 +863,20 @@ class LoginForm extends Component {
       let promise = this.state.onPreSignUpHook(options);
       if (promise instanceof Promise) {
         promise.then(SignUp.bind(this, options));
-      }
-      else {
+      } else {
         SignUp(options);
       }
     }
   }
 
-  loginWithoutPassword(){
+  loginWithoutPassword() {
     const {
       email = '',
       usernameOrEmail = '',
       waiting,
       formState,
       onSubmitHook
-    } = this.state;
+    } = this.state;
 
     if (waiting) {
       return;
@@ -808,12 +885,14 @@ class LoginForm extends Component {
     if (this.validateField('email', email)) {
       this.setState({ waiting: true });
 
-      Accounts.loginWithoutPassword({ email: email }, (error) => {
+      Accounts.loginWithoutPassword({ email: email }, error => {
         if (error) {
-          this.showMessage(`error.accounts.${error.reason}` || "unknown_error", 'error');
-        }
-        else {
-          this.showMessage(this.translate("info.emailSent"), 'success', 5000);
+          this.showMessage(
+            `error.accounts.${error.reason}` || 'unknown_error',
+            'error'
+          );
+        } else {
+          this.showMessage(this.translate('info.emailSent'), 'success', 5000);
           this.clearDefaultFieldValues();
         }
         onSubmitHook(error, formState);
@@ -822,37 +901,36 @@ class LoginForm extends Component {
     } else if (this.validateField('username', usernameOrEmail)) {
       this.setState({ waiting: true });
 
-      Accounts.loginWithoutPassword({ email: usernameOrEmail, username: usernameOrEmail }, (error) => {
-        if (error) {
-          this.showMessage(`error.accounts.${error.reason}` || "unknown_error", 'error');
+      Accounts.loginWithoutPassword(
+        { email: usernameOrEmail, username: usernameOrEmail },
+        error => {
+          if (error) {
+            this.showMessage(
+              `error.accounts.${error.reason}` || 'unknown_error',
+              'error'
+            );
+          } else {
+            this.showMessage(this.translate('info.emailSent'), 'success', 5000);
+            this.clearDefaultFieldValues();
+          }
+          onSubmitHook(error, formState);
+          this.setState({ waiting: false });
         }
-        else {
-          this.showMessage(this.translate("info.emailSent"), 'success', 5000);
-          this.clearDefaultFieldValues();
-        }
-        onSubmitHook(error, formState);
-        this.setState({ waiting: false });
-      });
+      );
     } else {
       let errMsg = null;
-      if (["USERNAME_AND_EMAIL_NO_PASSWORD"].includes(passwordSignupFields())) {
-        errMsg = this.translate("error.accounts.invalid_email");
+      if (['USERNAME_AND_EMAIL_NO_PASSWORD'].includes(passwordSignupFields())) {
+        errMsg = this.translate('error.accounts.invalid_email');
+      } else {
+        errMsg = this.translate('error.accounts.invalid_email');
       }
-      else {
-        errMsg = this.translate("error.accounts.invalid_email");
-      }
-      this.showMessage(errMsg,'warning');
+      this.showMessage(errMsg, 'warning');
       onSubmitHook(errMsg, formState);
     }
   }
 
   passwordReset() {
-    const {
-      email = '',
-      waiting,
-      formState,
-      onSubmitHook
-    } = this.state;
+    const { email = '', waiting, formState, onSubmitHook } = this.state;
 
     if (waiting) {
       return;
@@ -862,12 +940,14 @@ class LoginForm extends Component {
     if (this.validateField('email', email)) {
       this.setState({ waiting: true });
 
-      Accounts.forgotPassword({ email: email }, (error) => {
+      Accounts.forgotPassword({ email: email }, error => {
         if (error) {
-          this.showMessage(`error.accounts.${error.reason}` || "unknown_error", 'error');
-        }
-        else {
-          this.showMessage(this.translate("info.emailSent"), 'success', 5000);
+          this.showMessage(
+            `error.accounts.${error.reason}` || 'unknown_error',
+            'error'
+          );
+        } else {
+          this.showMessage(this.translate('info.emailSent'), 'success', 5000);
           this.clearDefaultFieldValues();
         }
         onSubmitHook(error, formState);
@@ -882,11 +962,11 @@ class LoginForm extends Component {
       newPassword,
       formState,
       onSubmitHook,
-      onSignedInHook,
-    } = this.state;
+      onSignedInHook
+    } = this.state;
 
-    if (!this.validateField('password', newPassword)){
-      onSubmitHook('err.minChar',formState);
+    if (!this.validateField('password', newPassword)) {
+      onSubmitHook('err.minChar', formState);
       return;
     }
 
@@ -895,13 +975,19 @@ class LoginForm extends Component {
       token = Accounts._loginButtonsSession.get('enrollAccountToken');
     }
     if (token) {
-      Accounts.resetPassword(token, newPassword, (error) => {
+      Accounts.resetPassword(token, newPassword, error => {
         if (error) {
-          this.showMessage(`error.accounts.${error.reason}` || "unknown_error", 'error');
+          this.showMessage(
+            `error.accounts.${error.reason}` || 'unknown_error',
+            'error'
+          );
           onSubmitHook(error, formState);
-        }
-        else {
-          this.showMessage(this.translate('info.passwordChanged'), 'success', 5000);
+        } else {
+          this.showMessage(
+            this.translate('info.passwordChanged'),
+            'success',
+            5000
+          );
           onSubmitHook(null, formState);
           this.setState({ formState: STATES.PROFILE });
           Accounts._loginButtonsSession.set('resetPasswordToken', null);
@@ -909,14 +995,15 @@ class LoginForm extends Component {
           onSignedInHook();
         }
       });
-    }
-    else {
-      Accounts.changePassword(password, newPassword, (error) => {
+    } else {
+      Accounts.changePassword(password, newPassword, error => {
         if (error) {
-          this.showMessage(`error.accounts.${error.reason}` || "unknown_error", 'error');
+          this.showMessage(
+            `error.accounts.${error.reason}` || 'unknown_error',
+            'error'
+          );
           onSubmitHook(error, formState);
-        }
-        else {
+        } else {
           this.showMessage('info.passwordChanged', 'success', 5000);
           onSubmitHook(null, formState);
           this.setState({ formState: STATES.PROFILE });
@@ -926,16 +1013,16 @@ class LoginForm extends Component {
     }
   }
 
-  showMessage(message, type, clearTimeout, field){
+  showMessage(message, type, clearTimeout, field) {
     message = this.translate(message).trim();
     if (message) {
-      this.setState(({ messages = [] }) => {
+      this.setState(({ messages = [] }) => {
         messages.push({
           message,
           type,
-          ...(field && { field }),
+          ...(field && { field })
         });
-        return  { messages };
+        return { messages };
       });
       if (clearTimeout) {
         this.hideMessageTimout = setTimeout(() => {
@@ -947,14 +1034,14 @@ class LoginForm extends Component {
   }
 
   getMessageForField(field) {
-    const { messages = [] } = this.state;
-    return messages.find(({ field:key }) => key === field);
+    const { messages = [] } = this.state;
+    return messages.find(({ field: key }) => key === field);
   }
 
   clearMessage(message) {
     if (message) {
-      this.setState(({ messages = [] }) => ({
-        messages: messages.filter(({ message:a }) => a !== message),
+      this.setState(({ messages = [] }) => ({
+        messages: messages.filter(({ message: a }) => a !== message)
       }));
     }
   }
@@ -988,15 +1075,15 @@ class LoginForm extends Component {
   render() {
     this.oauthButtons();
     // Backwords compatibility with v1.2.x.
-    const { messages = [] } = this.state;
+    const { messages = [] } = this.state;
     const message = {
       deprecated: true,
-      message: messages.map(({ message }) => message).join(', '),
+      message: messages.map(({ message }) => message).join(', ')
     };
     return (
       <Accounts.ui.Form
         oauthServices={this.oauthButtons()}
-        fields={this.fields()} 
+        fields={this.fields()}
         buttons={this.buttons()}
         {...this.state}
         message={message}
@@ -1011,7 +1098,7 @@ LoginForm.propTypes = {
   signUpPath: PropTypes.string,
   resetPasswordPath: PropTypes.string,
   profilePath: PropTypes.string,
-  changePasswordPath: PropTypes.string,
+  changePasswordPath: PropTypes.string
 };
 LoginForm.defaultProps = {
   formState: null,
@@ -1019,7 +1106,7 @@ LoginForm.defaultProps = {
   signUpPath: null,
   resetPasswordPath: null,
   profilePath: null,
-  changePasswordPath: null,
+  changePasswordPath: null
 };
 
 Accounts.ui.LoginForm = LoginForm;
@@ -1027,9 +1114,9 @@ Accounts.ui.LoginForm = LoginForm;
 const LoginFormContainer = withTracker(() => {
   // Listen for the user to login/logout and the services list to the user.
   Meteor.subscribe('servicesList');
-  return ({
-    user: Accounts.user(),
-  });
+  return {
+    user: Accounts.user()
+  };
 })(LoginForm);
 Accounts.ui.LoginForm = LoginFormContainer;
-export default LoginFormContainer
+export default LoginFormContainer;
