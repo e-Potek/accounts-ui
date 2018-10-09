@@ -1,6 +1,7 @@
 # React Accounts UI
 
-Current version 1.3.0
+Current version: 1.4.0.
+Forked from https://github.com/studiointeract/accounts-ui to address outstanding issues.
 
 ## Features
 
@@ -20,13 +21,13 @@ Current version 1.3.0
 
 This package does not by standard come with any styling, you can easily [extend and make your own](#create-your-own-styled-version), here are a couple versions we've made for the typical use case:
 
-* [**Basic**](https://atmospherejs.com/std/accounts-basic)  `std:accounts-basic`
-* [**Semantic UI**](https://atmospherejs.com/std/accounts-semantic)  `std:accounts-semantic`
-* [**Bootstrap 3/4**](https://atmospherejs.com/std/accounts-bootstrap)  `std:accounts-bootstrap`
-* [**Ionic**](https://atmospherejs.com/std/accounts-ionic)  `std:accounts-ionic`
-* [**Material UI**](https://atmospherejs.com/zetoff/accounts-material-ui) `zetoff:accounts-material-ui`
+- [**Basic**](https://atmospherejs.com/std/accounts-basic) `std:accounts-basic`
+- [**Semantic UI**](https://atmospherejs.com/std/accounts-semantic) `std:accounts-semantic`
+- [**Bootstrap 3/4**](https://atmospherejs.com/std/accounts-bootstrap) `std:accounts-bootstrap`
+- [**Ionic**](https://atmospherejs.com/std/accounts-ionic) `std:accounts-ionic`
+- [**Material UI**](https://atmospherejs.com/zetoff/accounts-material-ui) `zetoff:accounts-material-ui`
 
-* Add your styled version here [Learn how](#create-your-own-styled-version)
+- Add your styled version here [Learn how](#create-your-own-styled-version)
 
 ## Installation
 
@@ -65,76 +66,74 @@ Accounts.ui.config({
 ### Version 1.2 also supports passing hooks through props to the component.
 
 ```js
-import { Accounts } from 'meteor/std:accounts-ui';
+import { Accounts } from 'meteor/std:accounts-ui';
 
-<Accounts.ui.LoginForm
-  onSignedInHook={ () => console.log('user signed in') }
-/>
+<Accounts.ui.LoginForm onSignedInHook={() => console.log('user signed in')} />;
 ```
 
 **_Options:_**
 
-* **requestPermissions**&nbsp;&nbsp;&nbsp; Object  
+- **requestPermissions**&nbsp;&nbsp;&nbsp; Object  
   Which [permissions](http://docs.meteor.com/#requestpermissions) to request from the user for each external service.
 
-* **requestOfflineToken**&nbsp;&nbsp;&nbsp; Object  
+- **requestOfflineToken**&nbsp;&nbsp;&nbsp; Object  
   To ask the user for permission to act on their behalf when offline, map the relevant external service to true. Currently only supported with Google. See [Meteor.loginWithExternalService](http://docs.meteor.com/#meteor_loginwithexternalservice) for more details.
 
-* **forceApprovalPrompt**&nbsp;&nbsp;&nbsp; Boolean  
+- **forceApprovalPrompt**&nbsp;&nbsp;&nbsp; Boolean  
   If true, forces the user to approve the app's permissions, even if previously approved. Currently only supported with Google.
 
-* **passwordSignupFields**&nbsp;&nbsp;&nbsp; String  
+- **passwordSignupFields**&nbsp;&nbsp;&nbsp; String  
   Which fields to display in the user creation form. One of `'USERNAME_AND_EMAIL'`, `'USERNAME_AND_OPTIONAL_EMAIL'`, `'USERNAME_ONLY'`, `'EMAIL_ONLY'`, `'USERNAME_AND_EMAIL_NO_PASSWORD'`, **`'EMAIL_ONLY_NO_PASSWORD'`** (**default**).
 
-* **requireEmailVerification**&nbsp;&nbsp;&nbsp; Boolean  
-  Set if the login *without password* should check if the user is verified before sending any login emails. Default is **false**.
+- **requireEmailVerification**&nbsp;&nbsp;&nbsp; Boolean  
+  Set if the login _without password_ should check if the user is verified before sending any login emails. Default is **false**.
 
-* **minimumPasswordLength**&nbsp;&nbsp;&nbsp; Number  
+- **minimumPasswordLength**&nbsp;&nbsp;&nbsp; Number  
   Set the minimum number of password length for your application. Default is **7**.
 
-* **homeRoutePath**&nbsp;&nbsp;&nbsp; String  
+- **homeRoutePath**&nbsp;&nbsp;&nbsp; String  
   Set the path to where you would like the user to be redirected after a successful login or sign out.
 
-* **loginPath**&nbsp;&nbsp;&nbsp; String  
+- **loginPath**&nbsp;&nbsp;&nbsp; String  
   Change the default path a user should be redirected to after a clicking a link in a mail provided to them from the accounts system, it could be a mail set to them when they have reset their password, verifying their email if the setting for `sendVerificationEmail` is turned on ([read more on accounts configuration ](http://docs.meteor.com/#/full/accounts_config)). Can also be set as a property to the LoginForm, for i18n routes or other customization.
 
-* **signUpPath**&nbsp;&nbsp;&nbsp; String  
+- **signUpPath**&nbsp;&nbsp;&nbsp; String  
   Set the path to where you would like the sign up links to link to rather than changing the state on the current page. Can also be set as a property to the LoginForm, for i18n routes or other customization.
 
-* **resetPasswordPath**&nbsp;&nbsp;&nbsp; String  
+- **resetPasswordPath**&nbsp;&nbsp;&nbsp; String  
   Set the path to where you would like the link to reset password to go to rather than changing the state on the current page. Can also be set as a property to the LoginForm, for i18n routes or other customization.
 
-* **profilePath**&nbsp;&nbsp;&nbsp; String  
+- **profilePath**&nbsp;&nbsp;&nbsp; String  
   Set the path to where you would like the link to the profile to go to rather than changing the state on the current page. Can also be set as a property to the LoginForm, for i18n routes or other customization.
 
-* **changePasswordPath**&nbsp;&nbsp;&nbsp; String  
+- **changePasswordPath**&nbsp;&nbsp;&nbsp; String  
   Set the path to where you would like the link to change password to go to rather than changing the state on the current page. Can also be set as a property to the LoginForm, for i18n routes or other customization.
 
-* **onSubmitHook**&nbsp;&nbsp;&nbsp; function(error, state)  
+- **onSubmitHook**&nbsp;&nbsp;&nbsp; function(error, state)  
   Called when the LoginForm is being submitted: allows for custom actions to be taken on form submission. error contains possible errors occurred during the submission process, state specifies the LoginForm internal state from which the submission was triggered. A nice use case might be closing the modal or side-menu or dropdown showing LoginForm. You can get all the possible states by import `STATES` from this package.
 
-* **onPreSignUpHook**&nbsp;&nbsp;&nbsp; function(options)  
+- **onPreSignUpHook**&nbsp;&nbsp;&nbsp; function(options)  
   Called just before submitting the LoginForm for sign-up: allows for custom actions on the data being submitted. A nice use could be extending the user profile object accessing options.profile. to be taken on form submission. The plain text password is also provided for any reasonable use. If you return a promise, the submission will wait until you resolve it.
 
-* **onPostSignUpHook**&nbsp;&nbsp;&nbsp; func(options, user)  
+- **onPostSignUpHook**&nbsp;&nbsp;&nbsp; func(options, user)  
   Called client side, just after a successful user account creation, post submitting the form for sign-up: allows for custom actions on the data being submitted after we are sure a new user was successfully created.
 
-* **onResetPasswordHook**&nbsp;&nbsp;&nbsp; function()  
+- **onResetPasswordHook**&nbsp;&nbsp;&nbsp; function()  
   Change the default redirect behavior when the user clicks the link to reset their email sent from the system, i.e. you want a custom path for the reset password form. Default is **loginPath**.
 
-* **onEnrollAccountHook**&nbsp;&nbsp;&nbsp; function()  
+- **onEnrollAccountHook**&nbsp;&nbsp;&nbsp; function()  
   Change the default redirect behavior when the user clicks the link to enroll for an account sent from the system, i.e. you want a custom path for the enrollment form. Learn more about [how to send enrollment emails](http://docs.meteor.com/#/full/accounts_sendenrollmentemail). Default is **loginPath**.
 
-* **onVerifyEmailHook**&nbsp;&nbsp;&nbsp; function()  
+- **onVerifyEmailHook**&nbsp;&nbsp;&nbsp; function()  
   Change the default redirect behavior when the user clicks the link to verify their email sent from the system, i.e. you want a custom path after the user verifies their email or login with `EMAIL_ONLY_NO_PASSWORD`. Default is **profilePath**.
 
-* **onSignedInHook**&nbsp;&nbsp;&nbsp; function()  
+- **onSignedInHook**&nbsp;&nbsp;&nbsp; function()  
   Change the default redirect behavior when the user successfully login to your application, i.e. you want a custom path for the reset password form. Default is **profilePath**.
 
-* **onSignedOutHook**&nbsp;&nbsp;&nbsp; function()  
+- **onSignedOutHook**&nbsp;&nbsp;&nbsp; function()  
   Change the default redirect behavior when the user signs out using the LoginForm, i.e. you want a custom path after the user signs out. Default is **homeRoutePath**.
 
-* **emailPattern**&nbsp;&nbsp;&nbsp; new RegExp()  
+- **emailPattern**&nbsp;&nbsp;&nbsp; new RegExp()  
   Change how emails are validated on the client, i.e. require specific domain or pattern for an email. Default is **new RegExp('[^@]+@[^@\.]{2,}\.[^\.@]+')**.
 
 ## No password required
@@ -151,19 +150,17 @@ This is the default setting for **passwordSignupFields** in the [configuration](
 `meteor add std:accounts-ui`
 
 ```javascript
-
 import React from 'react';
 import { Accounts } from 'meteor/std:accounts-ui';
 
 Accounts.ui.config({
   passwordSignupFields: 'EMAIL_ONLY_NO_PASSWORD',
-  loginPath: '/',
+  loginPath: '/'
 });
 
 if (Meteor.isClient) {
-  ReactDOM.render(<Accounts.ui.LoginForm />, document.body)
+  ReactDOM.render(<Accounts.ui.LoginForm />, document.body);
 }
-
 ```
 
 ### Example setup using React Router (Meteor 1.3)
@@ -187,27 +184,29 @@ import { Hello } from '../../ui/pages/hello.jsx';
 import { Admin } from '../../ui/pages/admin.jsx';
 import { NotFound } from '../../ui/pages/not-found.jsx';
 
-Meteor.startup( () => {
+Meteor.startup(() => {
   render(
-    <Router history={ browserHistory }>
-      <Route path="/" component={ App }>
-        <IndexRoute component={ Index } />
+    <Router history={browserHistory}>
+      <Route path="/" component={App}>
+        <IndexRoute component={Index} />
         <Route path="/signin" component={() => <Accounts.ui.LoginForm />} />
-        <Route path="/signup" component={() => <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />} />
-        <Route path="/hello/:name" component={ Hello } />
+        <Route
+          path="/signup"
+          component={() => <Accounts.ui.LoginForm formState={STATES.SIGN_UP} />}
+        />
+        <Route path="/hello/:name" component={Hello} />
       </Route>
-      <Route path="/admin" component={ App }>
-        <IndexRoute component={ Admin } />
+      <Route path="/admin" component={App}>
+        <IndexRoute component={Admin} />
       </Route>
-      <Route path="*" component={ NotFound } />
+      <Route path="*" component={NotFound} />
     </Router>,
-    document.getElementById( 'react-root' )
+    document.getElementById('react-root')
   );
 });
 ```
 
 You can learn more about the remaining components here in the tutorial on [React Router Basics](https://themeteorchef.com/snippets/react-router-basics/) by the Meteor Chef.
-
 
 ### Example setup using FlowRouter (Meteor 1.3)
 
@@ -217,7 +216,6 @@ You can learn more about the remaining components here in the tutorial on [React
 `meteor add kadira:flow-router-ssr`
 
 ```javascript
-
 import React from 'react';
 import { Accounts } from 'meteor/std:accounts-ui';
 import { FlowRouter } from 'meteor/kadira:flow-router-ssr';
@@ -229,14 +227,13 @@ Accounts.ui.config({
   onSignedOutHook: () => FlowRouter.go('/')
 });
 
-FlowRouter.route("/login", {
+FlowRouter.route('/login', {
   action(params) {
     mount(MainLayout, {
       content: <Accounts.ui.LoginForm />
     });
   }
 });
-
 ```
 
 ### Example setup using the STATES api.
@@ -267,23 +264,31 @@ Accounts.ui.config({
   loginPath: '/login'
 });
 
-FlowRouter.route("/login", {
+FlowRouter.route('/login', {
   action(params) {
     mount(MainLayout, {
-      content: <Accounts.ui.LoginForm {...{
-        signUpPath: '/signup'
-      }} />
+      content: (
+        <Accounts.ui.LoginForm
+          {...{
+            signUpPath: '/signup'
+          }}
+        />
+      )
     });
   }
 });
 
-FlowRouter.route("/signup", {
+FlowRouter.route('/signup', {
   action(params) {
     mount(MainLayout, {
-      content: <Accounts.ui.LoginForm {...{
-        formState: STATES.SIGN_UP,
-        loginPath: '/login'
-      }} />
+      content: (
+        <Accounts.ui.LoginForm
+          {...{
+            formState: STATES.SIGN_UP,
+            loginPath: '/login'
+          }}
+        />
+      )
     });
   }
 });
@@ -343,7 +348,6 @@ Package.onUse(function(api) {
     "tracker-component": "^1.3.13"
   }
 }
-
 ```
 
 To install the dependencies added in your package.json run:  
@@ -354,7 +358,7 @@ To install the dependencies added in your package.json run:
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Accounts, STATES } from 'meteor/std:accounts-ui';
+import { Accounts, STATES } from 'meteor/std:accounts-ui';
 
 /**
  * Form.propTypes = {
@@ -366,12 +370,16 @@ import { Accounts, STATES } from 'meteor/std:accounts-ui';
  */
 class Form extends Accounts.ui.Form {
   render() {
-    const { fields, buttons, error, message, ready = true} = this.props;
+    const { fields, buttons, error, message, ready = true } = this.props;
     return (
-      <form className={ready ? "ready" : null} onSubmit={ evt => evt.preventDefault() } className="accounts-ui">
-        <Accounts.ui.Fields fields={ fields } />
-        <Accounts.ui.Buttons buttons={ buttons } />
-        <Accounts.ui.FormMessage message={ message } />
+      <form
+        className={ready ? 'ready' : null}
+        onSubmit={evt => evt.preventDefault()}
+        className="accounts-ui"
+      >
+        <Accounts.ui.Fields fields={fields} />
+        <Accounts.ui.Buttons buttons={buttons} />
+        <Accounts.ui.FormMessage message={message} />
       </form>
     );
   }
@@ -398,20 +406,19 @@ Accounts.ui.FormMessage = FormMessage;
 // Export the themed version.
 export { Accounts, STATES };
 export default Accounts;
-
 ```
 
 ### Available components
 
-* Accounts.ui.LoginForm
-  * Accounts.ui.Form
-    * Accounts.ui.Fields
-      * Accounts.ui.Field
-    * Accounts.ui.Buttons
-      * Accounts.ui.Button
-    * Accounts.ui.FormMessage
-    * Accounts.ui.PasswordOrService
-    * Accounts.ui.SocialButtons
+- Accounts.ui.LoginForm
+  - Accounts.ui.Form
+    - Accounts.ui.Fields
+      - Accounts.ui.Field
+    - Accounts.ui.Buttons
+      - Accounts.ui.Button
+    - Accounts.ui.FormMessage
+    - Accounts.ui.PasswordOrService
+    - Accounts.ui.SocialButtons
 
 ## Extra fields
 
@@ -459,7 +466,7 @@ And on the server you can store the extra fields like this:
 ```javascript
 import { Accounts } from 'meteor/accounts-base';
 
-Accounts.onCreateUser(function (options, user) {
+Accounts.onCreateUser(function(options, user) {
   user.profile = options.profile || {};
   user.roles = {};
   return user;
@@ -469,12 +476,13 @@ Accounts.onCreateUser(function (options, user) {
 ## Deprecations
 
 ### v1.2.11
-* The use of FormMessage in Form has been deprecated in favor of using
-FormMessages that handles multiple messages and errors.
-See example: [Form.jsx#L43](imports/ui/components/Form.jsx#L43)
 
-* Implementations of Accounts.ui.Field must render a message.
-See example: [Field.jsx#L](imports/ui/components/Field.jsx#L64-L67)
+- The use of FormMessage in Form has been deprecated in favor of using
+  FormMessages that handles multiple messages and errors.
+  See example: [Form.jsx#L43](imports/ui/components/Form.jsx#L43)
+
+- Implementations of Accounts.ui.Field must render a message.
+  See example: [Field.jsx#L](imports/ui/components/Field.jsx#L64-L67)
 
 ## Credits
 
