@@ -3,6 +3,8 @@
 Current version: 1.4.1.
 Forked from https://github.com/studiointeract/accounts-ui to address outstanding issues.
 
+Install this package by doing: `meteor add epotek:accounts-ui`.
+
 ## Features
 
 1. **[Easy to use](#using-react-accounts-ui)**, mixing the ideas of useraccounts configuration and accounts-ui that everyone already knows and loves.
