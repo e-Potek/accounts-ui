@@ -1,6 +1,6 @@
 # React Accounts UI
 
-Current version: 1.4.0.
+Current version: 1.4.1.
 Forked from https://github.com/studiointeract/accounts-ui to address outstanding issues.
 
 ## Features
