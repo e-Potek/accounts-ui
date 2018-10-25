@@ -252,7 +252,7 @@ have one route for /login and one for /signup.
 ```javascript
 import React from 'react';
 import { Accounts, STATES } from 'meteor/std:accounts-ui';
-import { T9n } from 'meteor/softwarerero:accounts-t9n';
+import { T9n } from 'meteor-accounts-t9n';
 
 T9n.setLanguage('en');
 

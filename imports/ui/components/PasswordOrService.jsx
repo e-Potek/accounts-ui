@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Accounts } from 'meteor/accounts-base';
-import { T9n } from 'meteor/softwarerero:accounts-t9n';
+import { T9n } from 'meteor-accounts-t9n';
 import { hasPasswordService } from '../../helpers.js';
 
 export class PasswordOrService extends React.Component {

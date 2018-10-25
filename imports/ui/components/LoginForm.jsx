@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Accounts } from 'meteor/accounts-base';
-import { T9n } from 'meteor/softwarerero:accounts-t9n';
+import { T9n } from 'meteor-accounts-t9n';
 import { KEY_PREFIX } from '../../login_session.js';
 import './Form.jsx';
 
