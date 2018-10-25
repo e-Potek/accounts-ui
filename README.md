@@ -1,7 +1,9 @@
 # React Accounts UI
 
-Current version: 1.4.1.
+Current version: 1.5.0.
 Forked from https://github.com/studiointeract/accounts-ui to address outstanding issues.
+
+- Now depends on npm package `meteor-accounts-t9n` instead of meteor package `softwarerero:accounts-t9n`
 
 Install this package by doing: `meteor add epotek:accounts-ui`.
 
