@@ -55,7 +55,10 @@ This package does not by standard come with any styling, you can easily [extend 
 
 ## Installation
 
-`meteor add std:accounts-ui`
+```
+meteor add epotek:accounts-ui
+meteor npm install --save meteor-accounts-t9n
+```
 
 ## Configuration
 
@@ -63,7 +66,7 @@ We support the standard [configuration in the account-ui package](http://docs.me
 
 ### Accounts.ui.config(options)
 
-`import { Accounts } from 'meteor/std:accounts-ui'`
+`import { Accounts } from 'meteor/epotek:accounts-ui'`
 
 Configure the behavior of `<Accounts.ui.LoginForm />`
 
@@ -90,7 +93,7 @@ Accounts.ui.config({
 ### Version 1.2 also supports passing hooks through props to the component.
 
 ```js
-import { Accounts } from 'meteor/std:accounts-ui';
+import { Accounts } from 'meteor/epotek:accounts-ui';
 
 <Accounts.ui.LoginForm onSignedInHook={() => console.log('user signed in')} />;
 ```
