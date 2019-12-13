@@ -7,6 +7,26 @@ Forked from https://github.com/studiointeract/accounts-ui to address outstanding
 
 Install this package by doing: `meteor add epotek:accounts-ui`.
 
+Here's how to quickly get started:
+
+```js
+import React from 'react';
+import { Accounts } from 'meteor/epotek:accounts-ui';
+import { T9n } from 'meteor-accounts-t9n';
+import { en } from 'meteor-accounts-t9n/build/en'; // Choose the language you need here
+
+T9n.map('en', en);
+T9n.setLanguage('en');
+
+const App = () => (
+  <div>
+    <Accounts.ui.LoginForm />
+  </div>
+);
+
+export default App;
+```
+
 ## Features
 
 1. **[Easy to use](#using-react-accounts-ui)**, mixing the ideas of useraccounts configuration and accounts-ui that everyone already knows and loves.
@@ -35,7 +55,10 @@ This package does not by standard come with any styling, you can easily [extend 
 
 ## Installation
 
-`meteor add std:accounts-ui`
+```
+meteor add epotek:accounts-ui
+meteor npm install --save meteor-accounts-t9n
+```
 
 ## Configuration
 
@@ -43,7 +66,7 @@ We support the standard [configuration in the account-ui package](http://docs.me
 
 ### Accounts.ui.config(options)
 
-`import { Accounts } from 'meteor/std:accounts-ui'`
+`import { Accounts } from 'meteor/epotek:accounts-ui'`
 
 Configure the behavior of `<Accounts.ui.LoginForm />`
 
@@ -70,7 +93,7 @@ Accounts.ui.config({
 ### Version 1.2 also supports passing hooks through props to the component.
 
 ```js
-import { Accounts } from 'meteor/std:accounts-ui';
+import { Accounts } from 'meteor/epotek:accounts-ui';
 
 <Accounts.ui.LoginForm onSignedInHook={() => console.log('user signed in')} />;
 ```
