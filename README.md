@@ -1,6 +1,6 @@
 # React Accounts UI
 
-Current version: 1.5.1.
+Current version: 1.5.3.
 Forked from https://github.com/studiointeract/accounts-ui to address outstanding issues.
 
 - Now depends on npm package `meteor-accounts-t9n` instead of meteor package `softwarerero:accounts-t9n`

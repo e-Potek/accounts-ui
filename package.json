@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/studiointeract/accounts-ui",
   "dependencies": {
-    "prop-types": "^15.5.8"
+    "prop-types": "^15.0.0"
   },
   "peerDependencies": {
-    "react": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react-addons-pure-render-mixin": "^15.0.0"
   }
 }
