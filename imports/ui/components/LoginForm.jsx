@@ -1063,6 +1063,8 @@ class LoginForm extends Component {
         console.warn(`Implementations of Accounts.ui.Field must render message in v1.2.11.
           https://github.com/studiointeract/accounts-ui/#deprecations`);
       }
+
+      ReactDOM.unmountComponentAtNode(container);
     }
   }
 
