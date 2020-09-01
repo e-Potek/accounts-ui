@@ -1,18 +1,18 @@
 Package.describe({
   name: 'epotek:accounts-ui',
-  version: '1.5.4',
-  summary: 'Accounts UI for React in Meteor 1.8+',
+  version: '1.5.6',
+  summary: 'Accounts UI for React in Meteor 1.11+',
   git: 'https://github.com/e-Potek/accounts-ui.git',
   documentation: 'README.md'
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.8');
+  api.versionsFrom('1.11');
   api.use('ecmascript');
   api.use('accounts-base');
   api.use('check');
   api.use('random');
-  api.use('email');
+  api.use('email@2.0.0');
   api.use('session');
   api.use('react-meteor-data@2.1.0');
   api.use('tmeasday:check-npm-versions@0.3.2');
